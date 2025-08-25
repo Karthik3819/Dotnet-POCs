@@ -1,0 +1,35 @@
+# Build results
+/bin/
+/obj/
+/out/
+
+# Visual Studio files
+.vs/
+
+# User-specific files
+*.user
+*.suo
+
+# Logs
+*.log
+logs/
+serilog-logs/
+
+# Config
+appsettings.*.json
+secrets.json
+
+# Docker
+*.pid
+*.tar
+*.lock
+.env
+
+# IDE
+*.swp
+*.tmp
+.idea/
+*.vscode/
+
+# Others
+node_modules/
