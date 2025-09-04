@@ -149,6 +149,18 @@ builder.Services.AddAuthorization();
 builder.Services.AddScoped<JwtTokenService>();
 
 
+//✅ Allow CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngular",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200") // 👈 Angular URL
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
+
 var app = builder.Build();
 
 // ✅ Debug print JWT configuration
@@ -175,6 +187,8 @@ app.Use(async (context, next) =>
     Console.WriteLine($"[AUTH HEADER] '{auth}'");
     await next();
 });
+
+app.UseCors("AllowAngular");
 
 // ✅ Authentication middleware (validates JWT, sets HttpContext.User)
 // Must come BEFORE Authorization

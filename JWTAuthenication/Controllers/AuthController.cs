@@ -17,6 +17,7 @@ namespace JWTAuthenication.Controllers
 
 
         public record LoginRequest(string Email, string Password);
+        public record RegisterRequest(string email, string password, string role);
         public AuthController(UserManager<AppUser> userManager,
                               RoleManager<IdentityRole> roleManager,
                               JwtTokenService tokenService)
@@ -27,20 +28,20 @@ namespace JWTAuthenication.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(string email, string password, string role)
+        public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest)
         {
-            if (!await roleManager.RoleExistsAsync(role))
+            if (!await roleManager.RoleExistsAsync(registerRequest.role))
                 return BadRequest("Role does not exist");
 
-            var user = new AppUser { UserName = email, Email = email };
+            var user = new AppUser { UserName = registerRequest.email, Email = registerRequest.email };
 
-            var result = await userManager.CreateAsync(user, password);
+            var result = await userManager.CreateAsync(user, registerRequest.password);
 
             if (!result.Succeeded) return BadRequest(result.Errors);
 
-            await userManager.AddToRoleAsync(user, role);
+            await userManager.AddToRoleAsync(user, registerRequest.role);
 
-            return Ok(new { message = "User registered successfully", email, role });
+            return Ok(new { message = "User registered successfully", registerRequest.email, registerRequest.role });
 
         }
 
