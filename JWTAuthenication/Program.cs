@@ -92,7 +92,9 @@ builder.Services.AddAuthentication(options =>
         ValidateLifetime = true,                       // Check exp/nbf times
         ValidIssuer = jwtSection["Issuer"],
         ValidAudience = jwtSection["Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(key)
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ClockSkew = TimeSpan.Zero
+
     };
 
     // ✅ Optional: Hook into JWT events to log/debug token handling

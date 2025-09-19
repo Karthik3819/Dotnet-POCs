@@ -24,7 +24,7 @@ namespace JWTAuthenication.Controllers
 
         [HttpGet("admin")]
         [Authorize(Roles = "Admin")]
-        public IActionResult AdminOnly() => Ok("Admin endpoint");
+        public IActionResult AdminOnly() => Ok(new { message = "Admin endpoint" });
 
         [HttpGet("manager")]
         [Authorize(Roles = "Manager")]
